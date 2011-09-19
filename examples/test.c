@@ -36,6 +36,10 @@ main (int argc, char **argv)
 
   fsfree(&test);
 
+  fstring *test2 = fsnewp("indeed");
+  printf("FS: %s\n", test2->str);  
+  fsfreep(test2);
+
   return 0;
 }
 

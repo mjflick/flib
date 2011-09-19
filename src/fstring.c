@@ -61,10 +61,37 @@ fsnnew(const char *string, size_t len)
   return new;
 }
 
+fstring *
+fsnewp(const char *string)
+{
+  return fsnnewp(string, strlen(string));
+}
+
+fstring *
+fsnnewp(const char *string, size_t len) 
+{
+  fstring *new = (fstring *) _xmalloc (sizeof(fstring));
+
+  new->len = len;
+  new->str = (char *) _xmalloc(len + 1);
+  
+  memset(new->str, 0x0, new->len + 1);
+  strncpy(new->str, string, new->len);
+
+  return new;
+}
+
 void
 fsfree(fstring *f)
 {
   free(f->str);
+}
+
+void
+fsfreep(fstring *f)
+{
+  free(f->str);
+  free(f);
 }
 
 int

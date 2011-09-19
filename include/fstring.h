@@ -5,6 +5,8 @@ typedef struct {
 
 fstring fsnew(const char *);
 fstring fsnnew(const char *, size_t);
+fstring *fsnewp(const char *);
+fstring *fsnnewp(const char *, size_t);
 int     fsset(fstring *, const char *);
 int     fsnset(fstring *, const char *, size_t);
 int     fseq(fstring *, fstring *);
