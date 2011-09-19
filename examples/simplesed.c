@@ -40,6 +40,7 @@ main (int argc, char **argv)
   fsreplace(&fs, argv[2], argv[3], FS_REPLACE_ALL);
 
   write(fileno(stdout), fs.str, fs.len);
+  fsfree(&fs);
 
   return 0;
 }

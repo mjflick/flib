@@ -17,8 +17,11 @@ main (int argc, char **argv)
   }
 
   string = strappend(string, "\ncheese");
-  string = strreplace(string, "e", "x", SS_REPLACE_ALL);
+  string = strreplace(string, "e", "xe", SS_REPLACE_ALL);
+
   printf("S: %s\n", string);
+  free(string);
+
 
   // if you want something more sane, try fstring
   fstring test = fsnew("what a sad day.");

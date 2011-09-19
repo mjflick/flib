@@ -113,7 +113,7 @@ struct fsnreplacement {
 };
 
 static int
-_fsnreplace (struct fsnreplacement *fsnr, regex_t *re, const char *rep_str, size_t rep_len)
+_fsnreplace (struct fsnreplacement *fsnr, regex_t *re, const char *rep_str, size_t rep_len, int *f_rep_off)
 {
   int        result;
   regmatch_t pmatch;
@@ -122,7 +122,7 @@ _fsnreplace (struct fsnreplacement *fsnr, regex_t *re, const char *rep_str, size
   size_t     len_wo_match;
   size_t     s_len = strlen(fsnr->s);
 
-  result = regexec(re, fsnr->s, 1, &pmatch, 0);
+  result = regexec(re, fsnr->s + *f_rep_off, 1, &pmatch, 0);
 
   if (result != 0) return 0;
 
@@ -135,18 +135,20 @@ _fsnreplace (struct fsnreplacement *fsnr, regex_t *re, const char *rep_str, size
   memset(new_str, 0x0, new_str_len + 1);
 
   // apply first half of string
-  memcpy(new_str, fsnr->s, pmatch.rm_so);
+  memcpy(new_str, fsnr->s, *f_rep_off + pmatch.rm_so);
 
   // apply replacement of string
-  memcpy(new_str + pmatch.rm_so, rep_str, rep_len);
+  memcpy(new_str + *f_rep_off + pmatch.rm_so, rep_str, rep_len);
 
   // apply remaining half of string
-  memcpy(new_str + pmatch.rm_so + rep_len,
-         fsnr->s + pmatch.rm_eo, 
-         s_len - pmatch.rm_so - (pmatch.rm_eo - pmatch.rm_so));
+  memcpy(new_str + pmatch.rm_so + rep_len + *f_rep_off,
+         fsnr->s + pmatch.rm_eo + *f_rep_off, 
+         s_len - pmatch.rm_so - *f_rep_off - (pmatch.rm_eo - pmatch.rm_so));
 
   free(fsnr->s);
   fsnr->s = new_str;
+  *f_rep_off = *f_rep_off + pmatch.rm_so + rep_len;
+
   return 1;
 }
 
@@ -160,7 +162,8 @@ char *
 strnreplace (char *s, const char *regex, const char *rep_str, size_t rep_len, int flags)
 {
   /* build regex */
-  int        results = 0;
+  int        results   = 0;
+  int        f_rep_off = 0;
   regex_t    re;
 
   /* Compile regex */
@@ -172,11 +175,11 @@ strnreplace (char *s, const char *regex, const char *rep_str, size_t rep_len, in
 
   if ((~(~SS_REPLACE_ALL | flags)) == 0)
     {
-      while( _fsnreplace(&fsnr, &re, rep_str, rep_len) ) ;
+      while( _fsnreplace(&fsnr, &re, rep_str, rep_len, &f_rep_off) );
     }
   else
     { 
-      results = _fsnreplace(&fsnr, &re, rep_str, rep_len);
+      results = _fsnreplace(&fsnr, &re, rep_str, rep_len, &f_rep_off);
     }
 
   /* free regex allocation */
