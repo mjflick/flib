@@ -88,12 +88,14 @@ fsnset(fstring *f, const char *string, size_t len)
 int
 fseq (fstring *a, fstring *b)
 {
-  if (a->len == b->len) {
-    return(strncmp(a->str, b->str, a->len) ? 0 : 1);
-  }
-  else {
-    return 0;
-  }
+  if (a->len == b->len)
+    {
+      return(strncmp(a->str, b->str, a->len) ? 0 : 1);
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 int
@@ -184,13 +186,15 @@ fsnreplace (fstring *f, const char *regex, const char *rep_str, size_t rep_len, 
   /* Compile regex */
   if (regcomp(&re, regex, REG_EXTENDED) != 0) return(0);
 
-  if ((~(~FS_REPLACE_ALL | flags)) == 0) {
-    while( _fsnreplace(f, &re, rep_str, rep_len) ) results++;
-  }
-  else { 
-    results = _fsnreplace(f, &re, rep_str, rep_len);
-  }
-    
+  if ((~(~FS_REPLACE_ALL | flags)) == 0)
+    {
+      while( _fsnreplace(f, &re, rep_str, rep_len) ) results++;
+    }
+  else
+    { 
+      results = _fsnreplace(f, &re, rep_str, rep_len);
+    }
+
   /* free regex allocation */
   regfree(&re);
 

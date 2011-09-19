@@ -81,12 +81,14 @@ int
 streq (char *s, char *comp)
 {
   int s_len = strlen(s);
-  if (s_len == strlen(comp)) {
-    return(strncmp(s, comp, s_len) ? 0 : 1);
-  }
-  else {
-    return 0;
-  }
+  if (s_len == strlen(comp))
+    {
+      return(strncmp(s, comp, s_len) ? 0 : 1);
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 int
@@ -168,13 +170,15 @@ strnreplace (char *s, const char *regex, const char *rep_str, size_t rep_len, in
   fsnr.success = 0;
   fsnr.s       = s;
 
-  if ((~(~SS_REPLACE_ALL | flags)) == 0) {
-    while( _fsnreplace(&fsnr, &re, rep_str, rep_len) ) ;
-  }
-  else { 
-    results = _fsnreplace(&fsnr, &re, rep_str, rep_len);
-  }
-    
+  if ((~(~SS_REPLACE_ALL | flags)) == 0)
+    {
+      while( _fsnreplace(&fsnr, &re, rep_str, rep_len) ) ;
+    }
+  else
+    { 
+      results = _fsnreplace(&fsnr, &re, rep_str, rep_len);
+    }
+
   /* free regex allocation */
   regfree(&re);
 
