@@ -2,46 +2,11 @@
 #include <string.h>
 #include <stdio.h>
 #include <regex.h>
+#include "alloc.h"
 #include "fstring.h"
 
 /* define global flags */
 int FS_REPLACE_ALL = 0x01;
-
-static char *
-_fatal (char *string)
-{
-  fprintf(stderr, "%s\n", string);
-  exit(EXIT_FAILURE);
-}
-
-static void *
-_xcalloc (size_t lsize, size_t size)
-{
-  register void *value = calloc (lsize, size);
-  if (value == 0)
-    _fatal ("virtual memory exhausted");
-  return value;
-}
-
-static void *
-_xrealloc (void *ptr, size_t size)
-{
-  ptr = realloc(ptr, size);
-
-  if (ptr == 0)
-    _fatal ("virtual memory exhausted");
-  return ptr;
-}
-
-static void *
-_xmalloc (size_t size)
-{
-  register void *value = malloc (size);
-  if (value == 0)
-    _fatal ("virtual memory exhausted");
-  return value;
-}
-
 fstring
 fsnew(const char *string)
 {
@@ -53,7 +18,7 @@ fsnnew(const char *string, size_t len)
 {
   fstring new;
   new.len = len;
-  new.str = (char *) _xmalloc(len + 1);
+  new.str = (char *) xmalloc(len + 1);
   
   memset(new.str, 0x0, new.len + 1);
   strncpy(new.str, string, new.len);
@@ -70,10 +35,10 @@ fsnewp(const char *string)
 fstring *
 fsnnewp(const char *string, size_t len) 
 {
-  fstring *new = (fstring *) _xmalloc (sizeof(fstring));
+  fstring *new = (fstring *) xmalloc (sizeof(fstring));
 
   new->len = len;
-  new->str = (char *) _xmalloc(len + 1);
+  new->str = (char *) xmalloc(len + 1);
   
   memset(new->str, 0x0, new->len + 1);
   strncpy(new->str, string, new->len);
@@ -103,7 +68,7 @@ fsset(fstring *f, const char *string)
 int
 fsnset(fstring *f, const char *string, size_t len)
 {
-  f->str = (char *) _xrealloc(f->str, len + 1);
+  f->str = (char *) xrealloc(f->str, len + 1);
   
   memset(f->str, 0x0, len + 1);
   strncpy(f->str, string, len);
@@ -174,7 +139,7 @@ _fsnreplace (fstring *f, regex_t *re, const char *rep_str, size_t rep_len, int *
   // allocate space for new string
   new_str_len = (f->len - ( pmatch.rm_eo - pmatch.rm_so )) + rep_len;
 
-  char *new_str = (char *) _xmalloc (new_str_len + 1);
+  char *new_str = (char *) xmalloc (new_str_len + 1);
 
   // zero out new string
   memset(new_str, 0x0, new_str_len + 1);
@@ -241,7 +206,7 @@ fsnappend(fstring *f, const char *string, size_t len)
 {
   size_t tot_len = len + f->len;
 
-  char *new_str = (char *) _xmalloc (tot_len + 1);
+  char *new_str = (char *) xmalloc (tot_len + 1);
   memset(new_str, 0x0, tot_len + 1);
   memcpy(new_str, f->str, f->len);
   memcpy(new_str + f->len, string, len);
