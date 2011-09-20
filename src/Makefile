@@ -4,7 +4,7 @@ INCLUDES = ../include/
 
 CFLAGS = -ggdb  -I$(INCLUDES)
 
-OBJS = strstring.o fstring.o alloc.o
+OBJS = strstring.o fstring.o fstack.o alloc.o
 
 all: shared
 

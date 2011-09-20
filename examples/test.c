@@ -2,10 +2,37 @@
 #include <stdlib.h>
 #include "strstring.h"
 #include "fstring.h"
+#include "fstack.h"
 
 int
 main (int argc, char **argv)
 {
+  fstack stacky;
+  fstack_init(&stacky);
+  fstack_push(&stacky, "one");
+  fstack_push(&stacky, "two");
+  fstack_push(&stacky, "three");
+  fstack_push(&stacky, "four");
+  fstack_push(&stacky, "five");
+  fstack_push(&stacky, "six");
+  fstack_push(&stacky, "seven");
+  fstack_push(&stacky, "eight");
+  fstack_push(&stacky, "nine");
+  fstack_push(&stacky, "ten");
+
+  fstack_insert(&stacky, 2, "dope");
+
+  puts((char*) fstack_delete(&stacky, 3));
+
+  //puts((char *)fstack_shift(&stacky));
+  //puts((char *)fstack_pop(&stacky));
+
+  printf("array length: %i\n", fstack_length(&stacky));
+
+  //  puts((char *)fpop(&stacky));
+
+  
+
   // if you just want to use a char *, the strstring is for you
   char *string = strnew("wisdom is high");
   string = strreplace(string, "wisdom", "mighty", 0);
