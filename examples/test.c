@@ -9,20 +9,18 @@ main (int argc, char **argv)
 {
   fstack stacky;
   fstack_init(&stacky);
-  fstack_push(&stacky, "one");
-  fstack_push(&stacky, "two");
-  fstack_push(&stacky, "three");
-  fstack_push(&stacky, "four");
-  fstack_push(&stacky, "five");
-  fstack_push(&stacky, "six");
-  fstack_push(&stacky, "seven");
-  fstack_push(&stacky, "eight");
-  fstack_push(&stacky, "nine");
-  fstack_push(&stacky, "ten");
 
-  fstack_insert(&stacky, 2, "dope");
+  int i;
+  for (i = 1; i <= 20000; i++)
+    {
+      int *x = (int *) malloc (sizeof(int));
+      *x = i;
+      fstack_insert(&stacky, i/2, "wisdom");
+    }
 
-  puts((char*) fstack_delete(&stacky, 3));
+  //fstack_insert(&stacky, 2, "dope");
+
+  //puts((char*) fstack_delete(&stacky, 3));
 
   //puts((char *)fstack_shift(&stacky));
   //puts((char *)fstack_pop(&stacky));
