@@ -1,12 +1,11 @@
 
-struct PersonObj
+typedef struct PersonObj
 {
   char name[40]; 
   char *(*setname)(struct PersonObj *, const char *);
   char *(*getname)(struct PersonObj *);
   void (*print)(struct PersonObj *);
-};
-typedef struct PersonObj Person;
+} Person;
 
 /* below is evil */  
 
@@ -33,6 +32,4 @@ void initPerson (Person *P)
   P->setname = setname;
   P->getname = getname;
   P->print = fprint;
-
-
 }
