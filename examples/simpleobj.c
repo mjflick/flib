@@ -5,19 +5,18 @@
 
 int main(int argc, char **argv)
 {  
-  newObj(Person, Dan);
+  Person *Dan = newObj(Person);
   $(Dan, setname, "Silly Simon");
 
-  newObj(Person, Ron);
-  $(Ron, setname, "Ronald Regane");
-
-  $(Dan, print);
+  Person *Ron = newObj(Person);
+  $(Ron, setname, "Ronaldo");
   $(Ron, print);
-  $(Dan, setname, $(Ron, getname));
-
   $(Dan, print);
 
-  free(Dan);
+  $(Dan, setname, $(Ron, getname));
+  $(Dan, print);
+
+  //  free(Dan);
 
   return 0;
 }

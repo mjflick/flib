@@ -34,4 +34,5 @@ void initPerson (Person *P)
   P->getname = getname;
   P->print = fprint;
 
+
 }
