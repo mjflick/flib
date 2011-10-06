@@ -8,6 +8,8 @@ int main(int argc, char **argv)
   Person *Dan = newObj(Person);
   $(Dan, setname, "Silly Simon");
 
+  Person *DanCopy = copyObj(Person, Dan);
+
   Person *Ron = newObj(Person);
   $(Ron, setname, "Ronaldo");
   $(Ron, print);
@@ -15,6 +17,8 @@ int main(int argc, char **argv)
 
   $(Dan, setname, $(Ron, getname));
   $(Dan, print);
+
+  $(DanCopy, print);
 
   //  free(Dan);
 

@@ -7,8 +7,8 @@
 #define $(...) FOBJ_EXPAND(__VA_ARGS__)
 
 /* new object initialization */
-//#define newObj(T, O) T *O = (T *) malloc (sizeof(T)); init ## T(O)
 void *flibnewObj(size_t, void (*)( ));
-
+void *flibcopyObj(size_t, void *s);
 #define newObj(T) (T *) flibnewObj(sizeof(T), init ## T )
+#define copyObj(T,S) (T *) flibcopyObj(sizeof(T), S)
 
