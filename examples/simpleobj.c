@@ -20,6 +20,9 @@ int main(int argc, char **argv)
 
   $(DanCopy, print);
 
+  printf("At the end of the day, the winner is %s\n", $(Dan, getname));
+  printf("Runner up is %s\n", DanCopy->name);
+
   //  free(Dan);
 
   return 0;
