@@ -8,7 +8,7 @@
 
 /* new object initialization */
 void *flibnewObj(size_t, void (*)( ));
-void *flibcopyObj(size_t, void *s);
+void *flibcloneObj(size_t, void *s);
 #define newObj(T) (T *) flibnewObj(sizeof(T), init ## T )
-#define copyObj(T,S) (T *) flibcopyObj(sizeof(T), S)
+#define cloneObj(T,S) (T *) flibcloneObj(sizeof(T), S)
 
